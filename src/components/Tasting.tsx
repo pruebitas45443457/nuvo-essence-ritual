@@ -1,0 +1,172 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calendar, Clock, Users, Sparkles } from "lucide-react";
+import essenceImage from "@/assets/essence-abstract.jpg";
+
+const Tasting = () => {
+  const tastingExperiences = [
+    {
+      title: "Cata Íntima",
+      duration: "45 minutos",
+      participants: "1-2 personas",
+      description: "Una experiencia personal para descubrir tu esencia única",
+      includes: ["3 fragancias seleccionadas", "Guía sensorial", "Notas de cata", "Muestra personalizada"]
+    },
+    {
+      title: "Cata de Pareja",
+      duration: "60 minutos",
+      participants: "2 personas",
+      description: "Descubran juntos aromas que complementen su conexión",
+      includes: ["5 fragancias", "Ritual compartido", "Análisis de afinidad", "Kit de muestras"]
+    },
+    {
+      title: "Cata Grupal",
+      duration: "90 minutos",
+      participants: "3-6 personas",
+      description: "Una experiencia social sofisticada para compartir",
+      includes: ["8 fragancias", "Dinámicas grupales", "Degustación especial", "Obsequios únicos"]
+    }
+  ];
+
+  return (
+    <section id="cata" className="py-20 bg-subtle">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 className="font-primary text-4xl md:text-5xl font-bold text-primary mb-6">
+            Cata de Perfumes
+          </h2>
+          <p className="font-secondary text-lg md:text-xl font-light text-muted-foreground max-w-3xl mx-auto">
+            Una experiencia sensorial única para descubrir la fragancia que realmente te representa
+          </p>
+        </div>
+
+        {/* Hero Image */}
+        <div className="mb-16">
+          <div 
+            className="h-80 bg-cover bg-center rounded-lg shadow-lg relative overflow-hidden"
+            style={{ backgroundImage: `url(${essenceImage})` }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent flex items-center">
+              <div className="max-w-md ml-8 text-white">
+                <h3 className="font-primary text-3xl font-bold mb-4">El Arte de Descubrir</h3>
+                <p className="font-secondary text-lg font-light">
+                  Cada aroma cuenta una historia. Déjanos ayudarte a encontrar la tuya.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tasting Experiences */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {tastingExperiences.map((experience, index) => (
+            <Card key={index} className="bg-background border-border hover:shadow-lg transition-all duration-300">
+              <CardHeader>
+                <CardTitle className="font-primary text-xl font-semibold text-primary mb-4">
+                  {experience.title}
+                </CardTitle>
+                <div className="space-y-2">
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Clock className="w-4 h-4 mr-2" />
+                    <span className="font-secondary">{experience.duration}</span>
+                  </div>
+                  <div className="flex items-center text-sm text-muted-foreground">
+                    <Users className="w-4 h-4 mr-2" />
+                    <span className="font-secondary">{experience.participants}</span>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <p className="font-secondary text-sm text-foreground mb-6 leading-relaxed">
+                  {experience.description}
+                </p>
+                <div className="mb-6">
+                  <h4 className="font-secondary text-sm font-medium text-primary mb-3 flex items-center">
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Incluye:
+                  </h4>
+                  <ul className="space-y-1">
+                    {experience.includes.map((item, itemIndex) => (
+                      <li key={itemIndex} className="font-secondary text-xs text-foreground flex items-center">
+                        <span className="w-1.5 h-1.5 bg-primary rounded-full mr-2 flex-shrink-0"></span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <Button variant="outline" className="w-full font-secondary">
+                  Reservar Cata
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Process */}
+        <div className="bg-background rounded-lg p-8 mb-16">
+          <h3 className="font-primary text-3xl font-semibold text-center text-primary mb-12">
+            El Proceso de Cata
+          </h3>
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              {
+                step: "01",
+                title: "Preparación",
+                description: "Creamos un ambiente sereno para que tus sentidos se abran a la experiencia"
+              },
+              {
+                step: "02", 
+                title: "Exploración",
+                description: "Guiamos tu olfato a través de diferentes familias aromáticas"
+              },
+              {
+                step: "03",
+                title: "Conexión",
+                description: "Identificamos las fragancias que resuenan con tu personalidad"
+              },
+              {
+                step: "04",
+                title: "Selección",
+                description: "Encontramos juntos tu esencia perfecta y te llevás tu muestra"
+              }
+            ].map((step, index) => (
+              <div key={index} className="text-center">
+                <div className="font-primary text-3xl font-bold text-accent mb-4">{step.step}</div>
+                <h4 className="font-primary text-lg font-semibold text-primary mb-2">{step.title}</h4>
+                <p className="font-secondary text-sm text-muted-foreground leading-relaxed">
+                  {step.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center">
+          <Card className="bg-elegant text-elegant-foreground max-w-2xl mx-auto">
+            <CardContent className="p-8">
+              <h3 className="font-primary text-2xl font-semibold mb-4">
+                ¿Listo para descubrir tu esencia?
+              </h3>
+              <p className="font-secondary text-base font-light mb-6">
+                Reserva tu cata personalizada y vive una experiencia olfativa inolvidable
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Button variant="secondary" className="font-secondary">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Ver Disponibilidad
+                </Button>
+                <Button variant="outline" className="font-secondary border-elegant-foreground text-elegant-foreground hover:bg-elegant-foreground hover:text-elegant">
+                  Más Información
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Tasting;

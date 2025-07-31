@@ -18,7 +18,19 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				'primary': ['Outfit', 'sans-serif'], // Geometric, bold, modern
+				'secondary': ['Inter', 'sans-serif'], // Thin, stylized
+			},
 			colors: {
+				elegant: {
+					DEFAULT: 'hsl(var(--elegant))',
+					foreground: 'hsl(var(--elegant-foreground))'
+				},
+				subtle: {
+					DEFAULT: 'hsl(var(--subtle))',
+					foreground: 'hsl(var(--subtle-foreground))'
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
