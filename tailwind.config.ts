@@ -19,8 +19,8 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'primary': ['Outfit', 'sans-serif'], // Geometric, bold, modern
-				'secondary': ['Inter', 'sans-serif'], // Thin, stylized
+				'primary': ['Calibri', 'sans-serif'], // Fuente principal
+				'secondary': ['Montserrat', 'sans-serif'], // Fuente secundaria
 			},
 			colors: {
 				elegant: {

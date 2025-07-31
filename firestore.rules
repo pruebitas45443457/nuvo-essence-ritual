@@ -1,0 +1,29 @@
+// Firestore Rules - Copie estas reglas en la consola de Firebase
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Permite a los usuarios leer y escribir sus propios documentos
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // Permite a los usuarios autenticados leer testimonios
+    match /testimonials/{testimonialId} {
+      allow read: if true; // Cualquiera puede leer testimonios
+      allow write: if request.auth != null; // Solo usuarios autenticados pueden escribir
+    }
+    
+    // Permite a los usuarios gestionar sus propias citas
+    match /appointments/{appointmentId} {
+      allow read: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow write: if request.auth != null;
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+    
+    // Regla para todos los documentos (protección general)
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

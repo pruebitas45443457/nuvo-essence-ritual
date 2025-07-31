@@ -4,53 +4,53 @@
 
 /* NUVÓ Design System - Elegant, Minimalist, Sophisticated */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @layer base {
   :root {
-    /* Core Colors - Minimalist Palette */
-    --background: 0 0% 99%;
-    --foreground: 0 0% 8%;
+    /* Core Colors - Brand Palette */
+    --background: 30 9% 98%; /* Blanco Marfil: #FAF9F6 */
+    --foreground: 0 0% 11%; /* Negro Carbón: #1C1C1C */
 
     /* NUVÓ Brand Colors */
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
+    --card: 30 9% 98%;
+    --card-foreground: 0 0% 11%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
+    --popover: 30 9% 98%;
+    --popover-foreground: 0 0% 11%;
 
     /* Sophisticated Black & Warm Neutrals */
-    --primary: 0 0% 8%;
-    --primary-foreground: 0 0% 99%;
+    --primary: 7 18% 69%; /* Oro Rosado Opaco: #C2A59D */
+    --primary-foreground: 30 9% 98%;
 
-    --secondary: 30 8% 95%;
-    --secondary-foreground: 0 0% 8%;
+    --secondary: 31 25% 86%; /* Nude Arena Fría: #E7DCD1 */
+    --secondary-foreground: 0 0% 11%;
 
-    --muted: 30 8% 96%;
+    --muted: 31 25% 86%;
     --muted-foreground: 0 0% 45%;
 
-    --accent: 25 15% 88%;
-    --accent-foreground: 0 0% 8%;
+    --accent: 31 25% 86%;
+    --accent-foreground: 0 0% 11%;
 
     /* Brand Specific */
-    --elegant: 0 0% 12%;
-    --elegant-foreground: 0 0% 99%;
+    --elegant: 0 0% 11%; /* Negro Carbón: #1C1C1C */
+    --elegant-foreground: 30 9% 98%;
     
-    --subtle: 30 5% 92%;
+    --subtle: 31 25% 86%; /* Nude Arena Fría: #E7DCD1 */
     --subtle-foreground: 0 0% 25%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 99%;
+    --destructive-foreground: 30 9% 98%;
 
-    --border: 30 8% 90%;
-    --input: 30 8% 94%;
-    --ring: 0 0% 8%;
+    --border: 31 25% 86%;
+    --input: 31 25% 86%;
+    --ring: 7 18% 69%;
 
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-subtle: linear-gradient(135deg, hsl(30 8% 98%) 0%, hsl(30 8% 95%) 100%);
-    --gradient-elegant: linear-gradient(135deg, hsl(0 0% 8%) 0%, hsl(0 0% 12%) 100%);
+    --gradient-subtle: linear-gradient(135deg, hsl(30 9% 98%) 0%, hsl(31 25% 86%) 100%); /* Blanco Marfil a Nude Arena */
+    --gradient-elegant: linear-gradient(135deg, hsl(0 0% 11%) 0%, hsl(7 18% 69%) 100%); /* Negro Carbón a Oro Rosado */
 
     --sidebar-background: 0 0% 98%;
 
@@ -70,41 +70,42 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 11%; /* Negro Carbón: #1C1C1C */
+    --foreground: 30 9% 98%; /* Blanco Marfil: #FAF9F6 */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 13%; /* Negro Carbón ligeramente más claro */
+    --card-foreground: 30 9% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 30 9% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 7 18% 69%; /* Oro Rosado Opaco: #C2A59D */
+    --primary-foreground: 0 0% 11%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 31 25% 86%; /* Nude Arena Fría: #E7DCD1 */
+    --secondary-foreground: 0 0% 11%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 30 9% 80%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 7 18% 69%;
+    --accent-foreground: 0 0% 11%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 30 9% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 7 18% 69%;
+    
+    --sidebar-background: 0 0% 11%;
+    --sidebar-foreground: 30 9% 98%;
+    --sidebar-primary: 7 18% 69%;
+    --sidebar-primary-foreground: 0 0% 11%;
+    --sidebar-accent: 0 0% 20%;
+    --sidebar-accent-foreground: 30 9% 98%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 7 18% 69%;
   }
 }
 
@@ -115,5 +116,128 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Calibri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Clase específica para la fuente Montserrat */
+  .font-secondary {
+    font-family: 'Montserrat', sans-serif;
+  }
+}
+
+@layer utilities {
+  /* Clases de utilidad para los colores de la marca */
+  .bg-carbon-black {
+    background-color: #1C1C1C;
+  }
+  
+  .text-carbon-black {
+    color: #1C1C1C;
+  }
+  
+  .bg-ivory-white {
+    background-color: #FAF9F6;
+  }
+  
+  .text-ivory-white {
+    color: #FAF9F6;
+  }
+  
+  .bg-cool-nude {
+    background-color: #E7DCD1;
+  }
+  
+  .text-cool-nude {
+    color: #E7DCD1;
+  }
+  
+  .bg-rose-gold {
+    background-color: #C2A59D;
+  }
+  
+  .text-rose-gold {
+    color: #C2A59D;
+  }
+  
+  .border-rose-gold {
+    border-color: #C2A59D;
+  }
+  
+  .border-cool-nude {
+    border-color: #E7DCD1;
+  }
+  
+  .hover\:bg-rose-gold:hover {
+    background-color: #C2A59D;
+  }
+  
+  .hover\:text-rose-gold:hover {
+    color: #C2A59D;
+  }
+  
+  /* Estilos para la pantalla de carga y transiciones */
+  
+  /* Estilos para el body durante la carga */
+  body.loading-active {
+    overflow: hidden !important;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+  }
+  
+  /* Esconder la barra de desplazamiento durante la carga */
+  body:has(.fixed[data-loading-screen="true"]) {
+    overflow: hidden;
+  }
+  
+  /* Animación para desvanecer elementos al entrar */
+  .fade-in {
+    animation: fadeIn 0.8s ease forwards;
+  }
+  
+  /* Animación para elementos que aparecen desde abajo */
+  .slide-up {
+    animation: slideUp 0.8s ease forwards;
+  }
+  
+  /* Transición suave para cambios de página */
+  .page-transition {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  
+  /* Efecto de carga para imágenes */
+  .image-loading {
+    filter: blur(10px);
+    transition: filter 0.5s ease;
+  }
+  
+  .image-loaded {
+    filter: blur(0);
+  }
+  
+  /* Animaciones */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Aplicar efecto de aparición a elementos después de que la página ha cargado */
+  .page-loaded .animate-on-load {
+    animation: slideUp 0.8s ease forwards;
   }
 }

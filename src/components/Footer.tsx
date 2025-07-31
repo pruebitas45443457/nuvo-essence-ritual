@@ -124,7 +124,7 @@ const Footer = () => {
           {/* Brand Values */}
           <div className="mt-8 text-center">
             <p className="font-secondary text-xs opacity-60 leading-relaxed max-w-2xl mx-auto">
-              "No buscamos impresionar. Buscamos conmover. Porque hay aromas que se sienten incluso después de irse."
+              "Elegancia que perdura en el tiempo. Perfumes exclusivos con un toque personal."
             </p>
           </div>
         </div>

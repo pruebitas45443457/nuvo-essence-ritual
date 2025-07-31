@@ -1,256 +1,283 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useRef, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Mail, Phone, MapPin, Send, ExternalLink, Instagram, Clock, Calendar, Heart, ChevronRight } from "lucide-react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import gsap from "@/lib/gsap-config";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-    mailingList: false
-  });
-  const { toast } = useToast();
+  const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const contactRef = useRef<HTMLDivElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const isInView = useInView(sectionRef, { once: false, amount: 0.2 });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.message) {
-      toast({
-        title: "Campos requeridos",
-        description: "Por favor completa todos los campos obligatorios.",
-        variant: "destructive"
+  // Animation setup
+  useEffect(() => {
+    if (!sectionRef.current) return;
+
+    const setupAnimations = () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+          end: "bottom bottom",
+          toggleActions: "play none none reverse"
+        }
       });
-      return;
-    }
 
-    toast({
-      title: "¡Mensaje enviado!",
-      description: "Nos pondremos en contacto contigo pronto.",
-    });
-
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-      mailingList: false
-    });
-  };
+      // Animate heading letters if ref exists
+      if (headingRef.current) {
+        const text = headingRef.current.innerText;
+        headingRef.current.innerHTML = "";
+        
+        [...text].forEach(char => {
+          const span = document.createElement("span");
+          span.textContent = char === " " ? "\u00A0" : char;
+          span.style.opacity = "0";
+          span.style.display = "inline-block";
+          span.style.transform = "translateY(20px)";
+          headingRef.current?.appendChild(span);
+        });
+        
+        tl.to(headingRef.current.children, {
+          opacity: 1,
+          y: 0,
+          stagger: 0.04,
+          ease: "power3.out",
+          duration: 0.8
+        });
+      }
+      
+      // Animate contact cards
+      if (contactRef.current) {
+        tl.fromTo(
+          contactRef.current.children,
+          { opacity: 0, y: 30 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            stagger: 0.15, 
+            ease: "power3.out", 
+            duration: 0.8 
+          },
+          "-=0.2"
+        );
+      }
+    };
+    
+    setupAnimations();
+  }, []);
 
   const contactInfo = [
     {
       icon: Mail,
       title: "Email",
       content: "hola@nuvo.com",
-      description: "Respuesta en 24 horas"
+      description: "Respuesta en 24 horas",
+      gradient: "from-rose-400 to-amber-400",
+      action: "Enviar email",
+      link: "mailto:hola@nuvo.com"
     },
     {
       icon: Phone,
       title: "Teléfono",
       content: "+54 11 1234-5678",
-      description: "Lunes a Viernes 10-18hs"
+      description: "Lunes a Viernes 10-18hs",
+      gradient: "from-violet-400 to-indigo-500",
+      action: "Llamar ahora",
+      link: "tel:+541112345678"
     },
     {
       icon: MapPin,
       title: "Ubicación",
       content: "Buenos Aires, Argentina",
-      description: "Citas con previa reserva"
+      description: "Citas con previa reserva",
+      gradient: "from-teal-400 to-emerald-500",
+      action: "Ver en mapa",
+      link: "https://maps.google.com"
+    },
+    {
+      icon: Clock,
+      title: "Horarios",
+      content: "10:00 - 19:00",
+      description: "De Lunes a Sábados",
+      gradient: "from-amber-400 to-orange-500",
+      action: "Ver calendario",
+      link: "#agenda"
     }
   ];
 
+  const socialLinks = [
+    {
+      name: "Instagram",
+      icon: Instagram,
+      link: "https://instagram.com/nuvo",
+      color: "hover:text-pink-500"
+    },
+    {
+      name: "Email",
+      icon: Mail,
+      link: "mailto:hola@nuvo.com",
+      color: "hover:text-blue-500"
+    }
+  ];
+
+  // Define animations directamente en los componentes en lugar de usar variantes
+
+  const handleSubscribe = () => {
+    if (emailRef.current?.value) {
+      // En un caso real, aquí se enviaría el email a un servicio
+      alert(`¡Gracias por suscribirte con ${emailRef.current.value}!`);
+      emailRef.current.value = '';
+    }
+  };
+
   return (
-    <section id="contacto" className="py-20 bg-subtle">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    <section ref={sectionRef} id="contacto" className="py-24 relative overflow-hidden">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-full h-full z-0">
+        <div className="absolute left-0 top-20 w-72 h-72 rounded-full bg-rose-gold/5 blur-3xl"></div>
+        <div className="absolute right-0 bottom-20 w-96 h-96 rounded-full bg-rose-gold/5 blur-3xl"></div>
+        <div className="absolute left-1/4 top-1/3 w-64 h-64 rounded-full bg-rose-gold/5 blur-3xl"></div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Header with animated text */}
         <div className="text-center mb-16">
-          <h2 className="font-primary text-4xl md:text-5xl font-bold text-primary mb-6">
-            Contacto
-          </h2>
-          <p className="font-secondary text-lg md:text-xl font-light text-muted-foreground max-w-3xl mx-auto">
+          <div className="inline-block relative mb-8">
+            <div className="h-px w-20 bg-primary absolute -top-4 left-1/2 -translate-x-1/2"></div>
+            <h2 ref={headingRef} className="font-primary text-4xl md:text-5xl lg:text-6xl font-bold text-primary">
+              Contacto
+            </h2>
+            <div className="h-px w-20 bg-primary absolute -bottom-4 left-1/2 -translate-x-1/2"></div>
+          </div>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="font-secondary text-lg md:text-xl font-light text-muted-foreground max-w-3xl mx-auto"
+          >
             Estamos aquí para acompañarte en tu búsqueda de la esencia perfecta
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Information */}
-          <div>
-            <h3 className="font-primary text-2xl font-semibold text-primary mb-8">
-              Información de Contacto
-            </h3>
-            
-            <div className="space-y-6 mb-12">
-              {contactInfo.map((info, index) => (
-                <Card key={index} className="bg-background border-border">
-                  <CardContent className="p-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="flex-shrink-0">
+        {/* Contact Cards - Advanced Design */}
+        <div ref={contactRef} className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          {contactInfo.map((info, index) => (
+            <motion.div
+              key={index}
+              initial={{ y: 20, opacity: 0 }}
+              animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+              whileHover={{ y: -8 }}
+              transition={{ 
+                duration: 0.6,
+                delay: index * 0.1
+              }}
+              className="group"
+            >
+              <a 
+                href={info.link}
+                className="block h-full"
+                target={info.link.startsWith('http') ? "_blank" : "_self"}
+                rel="noopener noreferrer"
+              >
+                <Card className="bg-background/80 backdrop-blur-lg border-primary/10 overflow-hidden h-full transition-all duration-500 group-hover:shadow-lg">
+                  <div className={`absolute inset-0 bg-gradient-to-br ${info.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-700"></div>
+                  
+                  <CardContent className="p-8 relative">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mb-6 transform group-hover:scale-110 transition-transform duration-300">
                         <info.icon className="w-6 h-6 text-primary" />
                       </div>
-                      <div>
-                        <h4 className="font-primary text-lg font-medium text-primary mb-1">
-                          {info.title}
-                        </h4>
-                        <p className="font-secondary text-base text-foreground mb-1">
-                          {info.content}
-                        </p>
-                        <p className="font-secondary text-sm text-muted-foreground">
-                          {info.description}
-                        </p>
+                      
+                      <h4 className="font-primary text-xl font-medium text-primary mb-2">
+                        {info.title}
+                      </h4>
+                      
+                      <p className="font-secondary text-lg text-foreground mb-2">
+                        {info.content}
+                      </p>
+                      
+                      <p className="font-secondary text-sm text-muted-foreground mb-6">
+                        {info.description}
+                      </p>
+                      
+                      <div className="mt-auto pt-4 flex items-center opacity-70 group-hover:opacity-100 transition-opacity">
+                        <span className="text-sm font-medium mr-2">{info.action}</span>
+                        <ChevronRight className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-
-            {/* Mailing List */}
-            <Card className="bg-elegant text-elegant-foreground">
-              <CardHeader>
-                <CardTitle className="font-primary text-xl font-semibold flex items-center">
-                  <Mail className="w-5 h-5 mr-2" />
-                  Newsletter NUVÓ
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="font-secondary text-sm font-light mb-4">
-                  Suscríbete para recibir novedades exclusivas, lanzamientos y invitaciones a eventos especiales.
-                </p>
-                <div className="flex space-x-2">
-                  <Input
-                    type="email"
-                    placeholder="tu@email.com"
-                    className="font-secondary bg-elegant-foreground/10 border-elegant-foreground/20 text-elegant-foreground placeholder:text-elegant-foreground/60"
-                  />
-                  <Button variant="secondary" size="sm" className="font-secondary">
-                    <Send className="w-4 h-4" />
-                  </Button>
-                </div>
-                <p className="font-secondary text-xs text-elegant-foreground/70 mt-2">
-                  Prometemos no saturar tu bandeja de entrada. Solo lo esencial.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Contact Form */}
-          <div>
-            <Card className="bg-background border-border">
-              <CardHeader>
-                <CardTitle className="font-primary text-2xl font-semibold text-primary">
-                  Envíanos un Mensaje
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="name" className="font-secondary text-sm font-medium text-primary">
-                        Nombre *
-                      </Label>
-                      <Input
-                        id="name"
-                        type="text"
-                        placeholder="Tu nombre"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="mt-1 font-secondary"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email" className="font-secondary text-sm font-medium text-primary">
-                        Email *
-                      </Label>
-                      <Input
-                        id="email"
-                        type="email"
-                        placeholder="tu@email.com"
-                        value={formData.email}
-                        onChange={(e) => setFormData({...formData, email: e.target.value})}
-                        className="mt-1 font-secondary"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="phone" className="font-secondary text-sm font-medium text-primary">
-                      Teléfono (opcional)
-                    </Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      placeholder="+54 11 1234-5678"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                      className="mt-1 font-secondary"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="subject" className="font-secondary text-sm font-medium text-primary">
-                      Asunto
-                    </Label>
-                    <Select value={formData.subject} onValueChange={(value) => setFormData({...formData, subject: value})}>
-                      <SelectTrigger className="mt-1 font-secondary">
-                        <SelectValue placeholder="Selecciona un asunto" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="cata">Consulta sobre Cata</SelectItem>
-                        <SelectItem value="productos">Información de Productos</SelectItem>
-                        <SelectItem value="agenda">Reserva de Turno</SelectItem>
-                        <SelectItem value="general">Consulta General</SelectItem>
-                        <SelectItem value="colaboracion">Colaboración</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="message" className="font-secondary text-sm font-medium text-primary">
-                      Mensaje *
-                    </Label>
-                    <Textarea
-                      id="message"
-                      placeholder="Cuéntanos cómo podemos ayudarte..."
-                      value={formData.message}
-                      onChange={(e) => setFormData({...formData, message: e.target.value})}
-                      className="mt-1 font-secondary min-h-[120px]"
-                      required
-                    />
-                  </div>
-
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="mailing"
-                      checked={formData.mailingList}
-                      onChange={(e) => setFormData({...formData, mailingList: e.target.checked})}
-                      className="rounded border-border"
-                    />
-                    <Label htmlFor="mailing" className="font-secondary text-sm text-muted-foreground">
-                      Quiero recibir novedades y ofertas especiales por email
-                    </Label>
-                  </div>
-
-                  <Button type="submit" className="w-full font-secondary">
-                    <Send className="w-4 h-4 mr-2" />
-                    Enviar Mensaje
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
+              </a>
+            </motion.div>
+          ))}
         </div>
+        
+        {/* Newsletter and Social Links */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="max-w-3xl mx-auto bg-background/90 backdrop-blur-lg border border-primary/10 rounded-2xl p-8 md:p-12"
+        >
+          <div className="flex flex-col md:flex-row gap-10 items-center">
+            <div className="flex-1">
+              <h3 className="font-primary text-2xl md:text-3xl font-semibold text-primary mb-4">
+                Mantengámonos en contacto
+              </h3>
+              <p className="font-secondary text-base text-muted-foreground mb-6">
+                Recibe actualizaciones exclusivas, novedades y eventos especiales directamente en tu bandeja de entrada.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-2 mb-8">
+                <Input
+                  ref={emailRef}
+                  type="email"
+                  placeholder="tu@email.com"
+                  className="font-secondary"
+                />
+                <Button 
+                  onClick={handleSubscribe}
+                  className="flex-shrink-0 bg-primary hover:bg-primary/90 text-white font-secondary"
+                >
+                  <Send className="w-4 h-4 mr-2" />
+                  Suscribirme
+                </Button>
+              </div>
+              
+              <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                <Heart className="w-3 h-3 text-rose-400" />
+                <span className="font-secondary">Prometemos no enviarte spam.</span>
+              </div>
+            </div>
+            
+            <div className="flex-shrink-0">
+              <div className="flex flex-col items-center">
+                <h4 className="font-primary text-lg font-medium text-primary mb-4">Síguenos</h4>
+                <div className="flex space-x-4">
+                  {socialLinks.map((social, index) => (
+                    <motion.a
+                      key={index}
+                      href={social.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`w-10 h-10 rounded-full bg-background border border-primary/20 flex items-center justify-center ${social.color} transition-colors`}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <social.icon className="w-4 h-4" />
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
