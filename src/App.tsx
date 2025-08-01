@@ -52,14 +52,14 @@ const App = () => {
   }, []);
 
   const handleLoadingComplete = () => {
-    // Cuando la animación de carga termina, permitimos que se muestre el contenido
+    // Transición instantánea para evitar fondo blanco
     setContentVisible(true);
     
-    // Retraso mínimo para la transición suave
+    // Eliminar pantalla de carga inmediatamente
     setTimeout(() => {
       setIsLoading(false);
       document.body.style.overflow = '';
-    }, 400); // Reducido de 800 a 400ms
+    }, 200); // Muy rápido
   };
 
   return (
@@ -75,15 +75,18 @@ const App = () => {
           )}
         </AnimatePresence>
 
-        {/* Contenido de la aplicación - transición más suave */}
+        {/* Contenido principal - SIN FONDO BLANCO */}
         <AnimatePresence>
           {contentVisible && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              className="w-full bg-background"
-              style={{ minHeight: '100vh' }}
+              transition={{ duration: 0.3 }}
+              className="w-full"
+              style={{ 
+                minHeight: '100vh',
+                backgroundColor: 'transparent'
+              }}
             >
               <BrowserRouter>
                 <Routes>

@@ -21,44 +21,39 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   const finalText = "NUVÓ Essence Ritual";
 
   useEffect(() => {
-    // Tiempo de carga reducido y más fluido
+    // TIEMPO DE CARGA MUY REDUCIDO
     const startTime = Date.now();
-    const minDisplayTime = 2000; // Reducido a 2 segundos
+    const minDisplayTime = 1500; // Solo 1.5 segundos
     
-    // Progreso de carga más rápido y fluido
+    // Progreso mucho más rápido
     const interval = setInterval(() => {
       setLoadingProgress((prev) => {
-        // Progreso más suave y rápido
-        const incrementFactor = prev < 70 ? 8 : 15;
+        const incrementFactor = prev < 60 ? 15 : 25; // Más rápido
         const newProgress = prev + Math.random() * incrementFactor;
         
         if (newProgress >= 100) {
           clearInterval(interval);
-          
-          // Mostrar texto final cuando la carga está completa
           setShowFinalText(true);
           
-          // Calcular cuánto tiempo ha pasado y asegurar el tiempo mínimo
           const elapsedTime = Date.now() - startTime;
           const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
           
-          // Tiempo de espera reducido
           setTimeout(() => {
             onLoadingComplete();
-          }, remainingTime + 500); // Reducido de 1000 a 500ms
+          }, remainingTime + 300); // Solo 300ms adicional
           
           return 100;
         }
         return newProgress;
       });
-    }, 200); // Reducido de 300 a 200ms para más fluidez
+    }, 150); // Más frecuente
 
-    // Cambiar el texto más rápido
+    // Cambio de texto más rápido
     const textInterval = setInterval(() => {
       setTextIndex((prev) => {
         return (prev + 1) % loadingTexts.length;
       });
-    }, 1200); // Reducido de 1500 a 1200ms
+    }, 800); // Más rápido
 
     return () => {
       clearInterval(interval);
@@ -66,7 +61,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
     };
   }, [onLoadingComplete, loadingTexts.length]);
 
-  // Efecto para añadir una clase al body
   useEffect(() => {
     document.body.classList.add('loading-active');
     
@@ -79,45 +73,47 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
     <motion.div
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.6 } }}
+      exit={{ opacity: 0, transition: { duration: 0.4 } }}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
       data-loading-screen="true"
     >
-      {/* Fondo perfumístico elegante */}
-      <div className="absolute inset-0 bg-gradient-to-br from-elegant via-carbon-black to-primary/20" />
+      {/* FONDO PERFUMÍSTICO ELEGANTE - DEGRADADO DORADO */}
+      <div className="absolute inset-0 bg-gradient-to-br from-rose-gold via-cool-nude to-ivory-white" />
       
-      {/* Efecto de niebla perfumística */}
-      <div className="absolute inset-0 opacity-30">
-        {Array.from({ length: 5 }).map((_, i) => (
+      {/* Efecto de niebla perfumística dorada */}
+      <div className="absolute inset-0 opacity-40">
+        {Array.from({ length: 8 }).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute rounded-full bg-gradient-to-r from-primary/20 via-ivory-white/10 to-transparent"
+            className="absolute rounded-full"
             style={{
-              width: `${200 + i * 100}px`,
-              height: `${100 + i * 50}px`,
-              left: `${20 + i * 15}%`,
-              top: `${10 + i * 20}%`,
-              filter: "blur(40px)",
+              width: `${150 + i * 80}px`,
+              height: `${80 + i * 40}px`,
+              left: `${15 + i * 12}%`,
+              top: `${5 + i * 15}%`,
+              background: `radial-gradient(ellipse, rgba(194, 165, 157, 0.3) 0%, rgba(231, 220, 209, 0.2) 50%, transparent 80%)`,
+              filter: "blur(30px)",
             }}
             animate={{
-              x: [0, 30, -20, 0],
-              y: [0, -20, 30, 0],
-              opacity: [0.1, 0.3, 0.1],
+              x: [0, 40, -30, 0],
+              y: [0, -25, 35, 0],
+              opacity: [0.2, 0.4, 0.2],
+              scale: [1, 1.2, 0.9, 1],
             }}
             transition={{
-              duration: 8 + i * 2,
+              duration: 6 + i * 1.5,
               repeat: Infinity,
               ease: "easeInOut",
             }}
           />
         ))}
       </div>
-      
-      {/* Partículas de esencia perfumística */}
-      {Array.from({ length: 25 }).map((_, index) => {
-        const size = Math.random() * 6 + 3;
-        const duration = Math.random() * 4 + 4;
-        const delay = Math.random() * 3;
+
+      {/* Partículas doradas flotantes */}
+      {Array.from({ length: 30 }).map((_, index) => {
+        const size = Math.random() * 5 + 3;
+        const duration = Math.random() * 3 + 3;
+        const delay = Math.random() * 2;
         const startPosition = Math.random() * 100;
         
         return (
@@ -127,16 +123,16 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
             style={{
               width: size,
               height: size,
-              bottom: `-10%`,
+              bottom: `-8%`,
               left: `${startPosition}%`,
-              background: `radial-gradient(circle, rgba(194, 165, 157, 0.6) 0%, rgba(231, 220, 209, 0.3) 50%, transparent 100%)`,
-              filter: "blur(2px)",
+              background: `radial-gradient(circle, rgba(194, 165, 157, 0.8) 0%, rgba(250, 249, 246, 0.6) 50%, transparent 100%)`,
+              filter: "blur(1px)",
             }}
             animate={{
-              y: [0, `-${90 + Math.random() * 30}vh`],
-              x: [0, -30 + Math.random() * 60],
-              opacity: [0, 0.7, 0],
-              scale: [0.3, 1, 0.2],
+              y: [0, `-${85 + Math.random() * 25}vh`],
+              x: [0, -25 + Math.random() * 50],
+              opacity: [0, 0.8, 0],
+              scale: [0.3, 1.2, 0.2],
             }}
             transition={{
               duration: duration,
@@ -152,44 +148,50 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
         {/* Logo animado */}
         <motion.div 
           className="mb-16"
-          initial={{ scale: 0.9, opacity: 0 }}
+          initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ 
             type: "spring", 
-            stiffness: 100, 
-            delay: 0.2 
+            stiffness: 120, 
+            delay: 0.1 
           }}
         >
           <AnimatedLogo />
         </motion.div>
 
-        {/* Texto de carga con cambio suave */}
+        {/* Texto de carga */}
         <motion.div
           className="text-center mb-8 h-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.3 }}
         >
           <AnimatePresence mode="wait">
             {showFinalText ? (
               <motion.p
                 key="final"
-                className="font-primary text-2xl text-primary font-semibold"
+                className="font-primary text-2xl text-carbon-black font-bold"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.4 }}
+                style={{ 
+                  textShadow: "0 2px 10px rgba(255,255,255,0.8)"
+                }}
               >
                 {finalText}
               </motion.p>
             ) : (
               <motion.p
                 key={textIndex}
-                className="font-primary text-lg text-white/90"
+                className="font-secondary text-lg text-carbon-black font-medium"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.25 }}
+                style={{ 
+                  textShadow: "0 1px 5px rgba(255,255,255,0.6)"
+                }}
               >
                 {loadingTexts[textIndex]}
               </motion.p>
@@ -197,34 +199,31 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
           </AnimatePresence>
         </motion.div>
         
-        {/* Barra de progreso estilizada */}
+        {/* Barra de progreso dorada */}
         <motion.div
           className="relative w-full max-w-xs"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.4 }}
         >
-          {/* Línea base */}
           <motion.div
-            className="w-full bg-white/10 h-1 rounded-full overflow-hidden"
+            className="w-full bg-carbon-black/20 h-2 rounded-full overflow-hidden backdrop-blur-sm"
             initial={{ width: "0%" }}
             animate={{ width: "100%" }}
-            transition={{ delay: 0.7, duration: 0.5 }}
+            transition={{ delay: 0.5, duration: 0.4 }}
           >
-            {/* Barra de progreso con brillo */}
             <motion.div
-              className="relative h-full bg-gradient-to-r from-primary/70 via-primary to-primary/70 rounded-full"
+              className="relative h-full bg-gradient-to-r from-rose-gold via-rose-gold to-cool-nude rounded-full"
               style={{ width: `${loadingProgress}%` }}
             >
-              {/* Efecto de brillo que se mueve */}
               <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
                 animate={{
                   left: ["-100%", "200%"],
                 }}
                 transition={{
                   repeat: Infinity,
-                  duration: 2,
+                  duration: 1.5,
                   ease: "linear",
                 }}
                 style={{ width: "50%" }}
@@ -232,34 +231,37 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
             </motion.div>
           </motion.div>
           
-          {/* Porcentaje */}
           <motion.p
-            className="absolute -right-8 -top-6 text-xs font-medium text-primary/80"
+            className="absolute -right-8 -top-6 text-sm font-bold text-carbon-black"
             initial={{ opacity: 0 }}
             animate={{ opacity: loadingProgress > 5 ? 1 : 0 }}
+            style={{ 
+              textShadow: "0 1px 3px rgba(255,255,255,0.8)"
+            }}
           >
             {Math.round(loadingProgress)}%
           </motion.p>
         </motion.div>
         
-        {/* Efecto de anillos concéntricos */}
+        {/* Anillos concéntricos dorados */}
         <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
           {Array.from({ length: 3 }).map((_, i) => (
             <motion.div
               key={i}
-              className="absolute rounded-full border border-primary/20"
+              className="absolute rounded-full border-2"
               style={{
-                width: `${300 + i * 100}px`,
-                height: `${300 + i * 100}px`,
+                width: `${250 + i * 80}px`,
+                height: `${250 + i * 80}px`,
+                borderColor: `rgba(194, 165, 157, ${0.3 - i * 0.1})`,
               }}
               animate={{
                 scale: [1, 1.1, 1],
-                opacity: [0.1, 0.3, 0.1],
+                opacity: [0.2, 0.4, 0.2],
               }}
               transition={{
-                duration: 3 + i,
+                duration: 4 + i,
                 repeat: Infinity,
-                delay: i * 0.3,
+                delay: i * 0.2,
                 ease: "easeInOut",
               }}
             />
