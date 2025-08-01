@@ -66,16 +66,16 @@ const Hero = () => {
         "-=0.6"
       );
 
-    // Parallax effect on scroll
+    // Subtle parallax effect on scroll - reduced movement to prevent white background showing
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return;
       
       const { clientX, clientY } = e;
-      const x = (clientX / window.innerWidth - 0.5) * 20;
-      const y = (clientY / window.innerHeight - 0.5) * 20;
+      const x = (clientX / window.innerWidth - 0.5) * 5; // Reduced from 20 to 5
+      const y = (clientY / window.innerHeight - 0.5) * 5; // Reduced from 20 to 5
       
       gsap.to(containerRef.current.querySelector('.bg-image'), {
-        duration: 1.5,
+        duration: 2,
         x: x,
         y: y,
         ease: "power2.out"
@@ -96,16 +96,19 @@ const Hero = () => {
       className="relative h-screen flex items-center justify-center overflow-hidden"
       style={{ position: 'relative' }}
     >
-      {/* Background Image with Parallax Effect */}
+      {/* Background Image with Parallax Effect - Fixed positioning to prevent white background showing */}
       <motion.div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-image scale-110"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-image scale-105"
         style={{ 
           backgroundImage: `url(${heroImage})`,
           opacity,
-          scale
+          scale,
+          willChange: 'transform'
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-carbon-black/40 via-carbon-black/30 to-background"></div>
+        {/* Enhanced overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-b from-carbon-black/70 via-carbon-black/60 to-carbon-black/50"></div>
+        <div className="absolute inset-0 bg-carbon-black/20"></div>
       </motion.div>
       
       {/* Floating Particles */}
@@ -169,10 +172,9 @@ const Hero = () => {
           <Button 
             variant="outline" 
             size="lg"
-            className="font-secondary text-ivory-white border-ivory-white/80 hover:bg-ivory-white hover:text-carbon-black transition-all duration-500 hover:scale-105 group overflow-hidden relative"
+            className="font-secondary text-carbon-black bg-ivory-white/90 border-ivory-white hover:bg-transparent hover:text-ivory-white border-2 backdrop-blur-sm transition-all duration-500 hover:scale-105 group overflow-hidden relative shadow-lg"
           >
-            <span className="relative z-10">Descubrir Esencias</span>
-            <span className="absolute inset-0 bg-ivory-white w-full h-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-in-out"></span>
+            <span className="relative z-10 font-medium">Descubrir Esencias</span>
           </Button>
         </motion.div>
       </div>

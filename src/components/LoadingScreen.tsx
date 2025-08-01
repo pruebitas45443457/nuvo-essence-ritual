@@ -21,15 +21,15 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   const finalText = "NUVÓ Essence Ritual";
 
   useEffect(() => {
-    // Registrar el tiempo de inicio para asegurar un tiempo mínimo de carga
+    // Tiempo de carga reducido y más fluido
     const startTime = Date.now();
-    const minDisplayTime = 3000; // Tiempo mínimo de 3 segundos
+    const minDisplayTime = 2000; // Reducido a 2 segundos
     
-    // Simular progreso de carga
+    // Progreso de carga más rápido y fluido
     const interval = setInterval(() => {
       setLoadingProgress((prev) => {
-        // Aumentar la carga más lentamente al principio, más rápido al final
-        const incrementFactor = prev < 50 ? 5 : 10;
+        // Progreso más suave y rápido
+        const incrementFactor = prev < 70 ? 8 : 15;
         const newProgress = prev + Math.random() * incrementFactor;
         
         if (newProgress >= 100) {
@@ -42,24 +42,23 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
           const elapsedTime = Date.now() - startTime;
           const remainingTime = Math.max(0, minDisplayTime - elapsedTime);
           
-          // Esperar el tiempo restante antes de completar la carga
+          // Tiempo de espera reducido
           setTimeout(() => {
             onLoadingComplete();
-          }, remainingTime + 1000); // Añadimos 1 segundo adicional para la animación final
+          }, remainingTime + 500); // Reducido de 1000 a 500ms
           
           return 100;
         }
         return newProgress;
       });
-    }, 300);
+    }, 200); // Reducido de 300 a 200ms para más fluidez
 
-    // Cambiar el texto cada 1.5 segundos
+    // Cambiar el texto más rápido
     const textInterval = setInterval(() => {
       setTextIndex((prev) => {
-        // Solo mostrar los textos de carga, no el final aún
         return (prev + 1) % loadingTexts.length;
       });
-    }, 1500);
+    }, 1200); // Reducido de 1500 a 1200ms
 
     return () => {
       clearInterval(interval);
@@ -78,38 +77,66 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 1 }} // Comenzamos visible
+      initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, transition: { duration: 0.8 } }}
+      exit={{ opacity: 0, transition: { duration: 0.6 } }}
       className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
       data-loading-screen="true"
     >
-      {/* Fondo con gradiente avanzado */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-elegant to-background" />
+      {/* Fondo perfumístico elegante */}
+      <div className="absolute inset-0 bg-gradient-to-br from-elegant via-carbon-black to-primary/20" />
       
-      {/* Efecto de partículas flotantes */}
-      {Array.from({ length: 30 }).map((_, index) => {
-        const size = Math.random() * 4 + 2;
-        const duration = Math.random() * 3 + 3;
-        const delay = Math.random() * 5;
+      {/* Efecto de niebla perfumística */}
+      <div className="absolute inset-0 opacity-30">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-gradient-to-r from-primary/20 via-ivory-white/10 to-transparent"
+            style={{
+              width: `${200 + i * 100}px`,
+              height: `${100 + i * 50}px`,
+              left: `${20 + i * 15}%`,
+              top: `${10 + i * 20}%`,
+              filter: "blur(40px)",
+            }}
+            animate={{
+              x: [0, 30, -20, 0],
+              y: [0, -20, 30, 0],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 8 + i * 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Partículas de esencia perfumística */}
+      {Array.from({ length: 25 }).map((_, index) => {
+        const size = Math.random() * 6 + 3;
+        const duration = Math.random() * 4 + 4;
+        const delay = Math.random() * 3;
         const startPosition = Math.random() * 100;
         
         return (
           <motion.div
             key={index}
-            className="absolute rounded-full bg-primary/40 pointer-events-none"
+            className="absolute rounded-full pointer-events-none"
             style={{
               width: size,
               height: size,
-              bottom: `-5%`,
+              bottom: `-10%`,
               left: `${startPosition}%`,
-              filter: "blur(1px)",
+              background: `radial-gradient(circle, rgba(194, 165, 157, 0.6) 0%, rgba(231, 220, 209, 0.3) 50%, transparent 100%)`,
+              filter: "blur(2px)",
             }}
             animate={{
-              y: [0, `-${80 + Math.random() * 40}vh`],
-              x: [0, -20 + Math.random() * 40],
-              opacity: [0, 0.8, 0],
-              scale: [0, 1, 0.5],
+              y: [0, `-${90 + Math.random() * 30}vh`],
+              x: [0, -30 + Math.random() * 60],
+              opacity: [0, 0.7, 0],
+              scale: [0.3, 1, 0.2],
             }}
             transition={{
               duration: duration,

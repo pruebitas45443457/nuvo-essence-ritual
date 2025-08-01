@@ -55,11 +55,11 @@ const App = () => {
     // Cuando la animación de carga termina, permitimos que se muestre el contenido
     setContentVisible(true);
     
-    // Luego de un breve retraso para la transición, quitamos la pantalla de carga
+    // Retraso mínimo para la transición suave
     setTimeout(() => {
       setIsLoading(false);
       document.body.style.overflow = '';
-    }, 800);
+    }, 400); // Reducido de 800 a 400ms
   };
 
   return (
@@ -75,14 +75,15 @@ const App = () => {
           )}
         </AnimatePresence>
 
-        {/* Contenido de la aplicación - solo visible después de la animación de carga */}
+        {/* Contenido de la aplicación - transición más suave */}
         <AnimatePresence>
           {contentVisible && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              className="w-full"
+              transition={{ duration: 0.5 }}
+              className="w-full bg-background"
+              style={{ minHeight: '100vh' }}
             >
               <BrowserRouter>
                 <Routes>
